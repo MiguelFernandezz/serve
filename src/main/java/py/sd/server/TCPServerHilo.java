@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import java.net.*;
 import java.io.*;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.Logger;
 
 public class TCPServerHilo extends Thread {
@@ -19,6 +18,7 @@ public class TCPServerHilo extends Thread {
     public TCPServerHilo(Socket socket, Integer i) {
         super("TCPServerHilo");
         this.socket = socket;
+        this.i = i;
     }
 
     public void run() {

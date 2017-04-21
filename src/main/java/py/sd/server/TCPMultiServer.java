@@ -12,6 +12,8 @@ public class TCPMultiServer {
 
     public static void main(String[] args) throws IOException {
         
+        Integer puerto = Integer.parseInt(args[0]);
+        
         PropertyConfigurator.configure("log4j.properties");
         
         String inputLine, outputLine;
@@ -20,10 +22,9 @@ public class TCPMultiServer {
         boolean listening = true;
 
         try {
-            serverSocket = new ServerSocket(4444);
+            serverSocket = new ServerSocket(puerto);
         } catch (IOException e) {
-            logger.error("No se puede abrir el puerto: 4444.");
-            System.err.println("No se puede abrir el puerto: 4444.");
+            logger.error("No se puede abrir el puerto: "+puerto);
             System.exit(1);
         }
         logger.info("Puerto abierto: 4444.");
