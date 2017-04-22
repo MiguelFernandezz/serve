@@ -37,11 +37,13 @@ public class TCPServerHilo extends Thread {
             String inputLine, outputLine;
             double size = 0;
             double ini = System.currentTimeMillis();
+            double fin = 0;
+            Objeto o = new Objeto();
             while ((inputLine = in.readLine()) != null) {
-
+                
                 if (!inputLine.equalsIgnoreCase("Bye")) {
-                    Objeto o = new Objeto();
                     
+                    fin = System.currentTimeMillis();
                     o = gson.fromJson(inputLine, Objeto.class);
                     direccion = o.getDireccion();
                     File file = new File("newfile.png");
@@ -57,25 +59,26 @@ public class TCPServerHilo extends Thread {
                     fop.close();
                 }
 
-                if (inputLine.equalsIgnoreCase("Bye")) {
+//                if (inputLine.equalsIgnoreCase("Bye")) {
 
-                    double fin = System.currentTimeMillis();
+                    
                     double tiempo = fin - ini;
                     tiempo = tiempo / 1000;
-                    double velocidad = size / tiempo * 8 ;
-                    
+                    double velocidad = size / tiempo ;
+//                    logger.info("size: "+size+"  tiempo: "+tiempo);
                     Respuesta resp = new Respuesta();
                     resp.setEstado(0);
-                    resp.setMensaje("velocidad: " + velocidad+" kbps");
+                    resp.setMensaje("velocidad de subida: " + velocidad+" kBps");
+                    resp.setFile(o.getFile());
                     logger.info("recibido de: "+direccion);
-                    logger.info(resp);
-                    out.println(gson.toJson(resp));
+                    String jsonRespuesta  = gson.toJson(resp);
+                    out.println(jsonRespuesta);
                     break;
-                }
-                Respuesta eco = new Respuesta();
-                eco.setEstado(2);
-                eco.setMensaje("trama recibida");
-                out.println(gson.toJson(eco));
+//                }
+//                Respuesta eco = new Respuesta();
+//                eco.setEstado(2);
+//                eco.setMensaje("trama recibida");
+//                out.println(gson.toJson(eco));
             }
             out.close();
             in.close();
